@@ -1,0 +1,17 @@
+cloud:
+    aws:
+        region:
+            static: us-east-1 # QAS
+        sqs:
+            endpoint: http://localhost:4566
+            queue-url: "http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/sample-queue"
+            wait-time-seconds: 20
+            messages-per-request: 10
+app:
+    thread:
+        concurrent:
+            min: 1
+            max: 10
+    schedule:
+        fixed-rate: 1000
+
