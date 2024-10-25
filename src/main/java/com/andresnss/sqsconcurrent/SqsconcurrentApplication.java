@@ -3,9 +3,11 @@ package com.andresnss.sqsconcurrent;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
 @EnableScheduling
+@EnableWebSecurity
 public class SqsconcurrentApplication {
 
 	public static void main(String[] args) {
@@ -25,4 +27,3 @@ public class SqsconcurrentApplication {
 //10.000 messages (1 thread)
 //Inicio: 	2024-06-20T00:13:32.679-04:00
 //Termino: 	2024-06-20T00:30:12.672-04:00   17 min
-

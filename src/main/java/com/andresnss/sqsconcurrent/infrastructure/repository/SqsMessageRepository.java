@@ -34,7 +34,14 @@ public class SqsMessageRepository implements IMessageRepository{
 
     @Override
     public CompletableFuture<List<Message>> fetchMessages() {
-        return CompletableFuture.supplyAsync(() -> sqsClientWrapper.receiveMessages(messagesPerRequest));
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return sqsClientWrapper.receiveMessages(messagesPerRequest);
+            } catch (Exception e) {
+                log.error("Error fetching messages: {}", e.getMessage());
+                return List.of();
+            }
+        });
     }
 
     @Override
@@ -68,4 +75,3 @@ public class SqsMessageRepository implements IMessageRepository{
 
 
 }
-

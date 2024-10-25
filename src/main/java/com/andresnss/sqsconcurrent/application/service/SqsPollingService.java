@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.andresnss.sqsconcurrent.domain.service.IMessageRepository;
 import com.andresnss.sqsconcurrent.domain.service.MessageProcessingService;
@@ -38,8 +39,7 @@ public class SqsPollingService {
         currentParallelRequests = new AtomicInteger(minParallelRequests);
     }
 
-    
-
+    @PreAuthorize("isAuthenticated()")
     @Scheduled(fixedRateString = "${app.schedule.fixed-rate}")
     public void pollMessages() {
         log.info("----init-process----");
