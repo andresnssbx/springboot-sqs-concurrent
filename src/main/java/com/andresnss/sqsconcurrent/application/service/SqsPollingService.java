@@ -57,12 +57,19 @@ public class SqsPollingService {
         return messageRepository.fetchMessages()
                 .thenAccept(messages -> {
                     if (messages.isEmpty()) {
-                        //sqsMessageRepository.handleEmptyResponse();   retryBackoff
                         log.info("No messages received");
                     } else {
-                        //sqsMessageRepository.resetBackoffTime();      retryBackoff
                         messages.forEach(messageProcessingService::processMessage);
                     }
+                })
+                .exceptionally(ex -> {
+                    if (ex.getCause() instanceof InterruptedException) {
+                        log.error("Message fetching was interrupted", ex);
+                        Thread.currentThread().interrupt();
+                    } else {
+                        log.error("An error occurred while fetching messages", ex);
+                    }
+                    return null;
                 });
     }
 

@@ -47,7 +47,10 @@ public class SqsMessageRepository implements IMessageRepository{
                 backoffTime.set(Math.min(currentBackoffTime * 2, MAX_BACKOFF_TIME));
             }
         } catch (InterruptedException e) {
+            log.error("Thread was interrupted during backoff", e);
             Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            log.error("An unexpected error occurred during backoff", e);
         }
     }
 
@@ -68,4 +71,3 @@ public class SqsMessageRepository implements IMessageRepository{
 
 
 }
-
